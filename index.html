@@ -1,56 +1,40 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MotoExpress Rosario</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f2f5fa;color:#172b46}
-header{background:#102b4b;color:white;text-align:center;padding:32px 15px}
-header h1{font-size:27px;margin:8px 0}
-header p{color:#dbe7f5}
-main{max-width:520px;margin:auto;padding:20px}
-h2{font-size:21px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.card{background:white;padding:20px 12px;border-radius:15px;box-shadow:0 3px 12px #0001;text-align:center}
-.emoji{font-size:35px}
-button{background:#ffc439;border:0;border-radius:10px;padding:14px;font-size:15px;font-weight:bold;width:100%;cursor:pointer}
-.panel{background:white;border-radius:15px;padding:20px;margin-top:20px}
-input,select{width:100%;padding:13px;margin:7px 0 14px;border:1px solid #cbd5e1;border-radius:9px;font-size:16px}
-nav{display:flex;gap:8px;margin-top:20px}
-nav button{font-size:13px;padding:12px 5px}
-footer{text-align:center;padding:20px;color:#64748b;font-size:13px}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f2f5fa;color:#172b46}header{background:#102b4b;color:#fff;text-align:center;padding:28px 15px}header h1{font-size:27px;margin:8px 0}header p{color:#dbe7f5}main{max-width:520px;margin:auto;padding:20px}h2{font-size:21px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card,.panel{background:#fff;border-radius:15px;padding:20px 12px;box-shadow:0 3px 12px #0001}.card{text-align:center}.emoji{font-size:35px}button{background:#ffc439;border:0;border-radius:10px;padding:13px;font-size:15px;font-weight:bold;width:100%;cursor:pointer;color:#172b46}button:disabled{opacity:.6}.panel{padding:20px;margin-top:20px}input,select{width:100%;padding:13px;margin:7px 0 14px;border:1px solid #cbd5e1;border-radius:9px;font-size:16px}nav{display:flex;gap:8px;margin-top:20px}nav button{font-size:13px;padding:12px 5px}.secondary{background:#e2e8f0}.status{white-space:pre-wrap;overflow-wrap:anywhere}footer{text-align:center;padding:20px;color:#64748b;font-size:13px}[hidden]{display:none!important}.order{border-top:1px solid #ddd;padding:12px 0}.small{font-size:13px;color:#64748b}
 </style>
 </head>
 <body>
 <header><div style="font-size:44px">🏍️</div><h1>MotoExpress Rosario</h1><p>Tu delivery de confianza en Villa del Rosario, Zulia</p></header>
 <main>
-<h2>¿Qué necesitas hoy?</h2>
-<div class="grid">
-<div class="card"><div class="emoji">📦</div><h3>Paquetes</h3><button onclick="elegir('Envío de paquete')">Solicitar</button></div>
-<div class="card"><div class="emoji">🛒</div><h3>Compras</h3><button onclick="elegir('Compras')">Solicitar</button></div>
-<div class="card"><div class="emoji">🍔</div><h3>Comida</h3><button onclick="elegir('Comida')">Solicitar</button></div>
-<div class="card"><div class="emoji">📍</div><h3>Mandados</h3><button onclick="elegir('Mandados')">Solicitar</button></div>
-</div>
-<section class="panel" id="cliente">
-<h2>Solicitar delivery</h2>
-<label>Servicio</label>
-<select id="servicio"><option>Envío de paquete</option><option>Compras</option><option>Comida</option><option>Mandados</option></select>
-<label>Dirección de recogida</label><input id="origen" placeholder="¿Dónde buscamos?">
-<label>Dirección de entrega</label><input id="destino" placeholder="¿Dónde entregamos?">
-<button onclick="solicitar()">Solicitar motorizado</button>
-<p id="resultado" role="status"></p>
-</section>
-<nav><button onclick="panel('cliente')">👤 Cliente</button><button onclick="panel('motorizado')">🏍️ Motorizado</button><button onclick="panel('admin')">🛡️ Admin</button></nav>
-<section class="panel" id="motorizado" hidden><h2>Panel de motorizados</h2><p>Próximamente: registro y pedidos disponibles.</p></section>
-<section class="panel" id="admin" hidden><h2>Administración</h2><p>Próximamente: gestión segura de pedidos y usuarios.</p></section>
-</main>
-<footer>Versión de demostración • Sin pedidos reales ni conexión a Firebase</footer>
-<script>
-function panel(id){['cliente','motorizado','admin'].forEach(x=>document.getElementById(x).hidden=x!==id)}
-function elegir(s){document.getElementById('servicio').value=s;panel('cliente');document.getElementById('cliente').scrollIntoView({behavior:'smooth'})}
-function solicitar(){const a=document.getElementById('origen').value.trim(),b=document.getElementById('destino').value.trim();document.getElementById('resultado').textContent=!a||!b?'Completa ambas direcciones.':'Solicitud de demostración preparada. Aún no se ha enviado ningún pedido.'}
+<section class="panel" id="authPanel"><h2>Mi cuenta</h2><div id="signedOut"><input id="email" type="email" autocomplete="email" placeholder="Correo electrónico"><input id="password" type="password" autocomplete="current-password" placeholder="Contraseña (mínimo 6 caracteres)"><button id="loginBtn">Iniciar sesión</button><p><button class="secondary" id="registerBtn">Crear cuenta de cliente</button></p></div><div id="signedIn" hidden><p id="accountLabel"></p><button class="secondary" id="logoutBtn">Cerrar sesión</button></div><p class="status" id="authStatus" role="status"></p></section>
+<h2>¿Qué necesitas hoy?</h2><div class="grid"><div class="card"><div class="emoji">📦</div><h3>Paquetes</h3><button data-service="Envío de paquete">Solicitar</button></div><div class="card"><div class="emoji">🛒</div><h3>Compras</h3><button data-service="Compras">Solicitar</button></div><div class="card"><div class="emoji">🍔</div><h3>Comida</h3><button data-service="Comida">Solicitar</button></div><div class="card"><div class="emoji">📍</div><h3>Mandados</h3><button data-service="Mandados">Solicitar</button></div></div>
+<section class="panel" id="cliente"><h2>Solicitar delivery</h2><label for="servicio">Servicio</label><select id="servicio"><option>Envío de paquete</option><option>Compras</option><option>Comida</option><option>Mandados</option></select><label for="origen">Dirección de recogida</label><input id="origen" maxlength="250" placeholder="¿Dónde buscamos?"><label for="destino">Dirección de entrega</label><input id="destino" maxlength="250" placeholder="¿Dónde entregamos?"><button id="requestBtn">Solicitar motorizado</button><p id="resultado" class="status" role="status"></p></section>
+<nav><button data-panel="cliente">👤 Cliente</button><button data-panel="motorizado">🏍️ Motorizado</button><button data-panel="admin">🛡️ Admin</button></nav>
+<section class="panel" id="misPedidos"><h2>Mis pedidos</h2><button class="secondary" id="refreshBtn">Actualizar pedidos</button><div id="ordersList" class="small">Inicia sesión para ver tus pedidos.</div></section>
+<section class="panel" id="motorizado" hidden><h2>Panel de motorizados</h2><p>Próximamente: registro verificado de motorizados y asignación segura de pedidos.</p></section>
+<section class="panel" id="admin" hidden><h2>Administración</h2><p>La gestión de pedidos requiere una cuenta administradora autorizada. Este prototipo no concede permisos administrativos.</p></section>
+</main><footer>MotoExpress Rosario • Pedidos en Firebase • La asignación de motorizados aún no está activa</footer>
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
+import {getAuth,onAuthStateChanged,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+import {getFirestore,doc,setDoc,collection,addDoc,getDocs,query,where,serverTimestamp} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
+const firebaseConfig={apiKey:'AIzaSyA70-DUxBISAK2ILmb1yrtV3ErNc_UzvN8',authDomain:'motoexpress-rosario.firebaseapp.com',projectId:'motoexpress-rosario',storageBucket:'motoexpress-rosario.firebasestorage.app',messagingSenderId:'513603979922',appId:'1:513603979922:web:df43b8cb4734a4e22ff44b',measurementId:'G-5XTNS7F09C'};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const $=id=>document.getElementById(id);
+const errorText=e=>({ 'auth/email-already-in-use':'Este correo ya está registrado.','auth/invalid-email':'Correo electrónico inválido.','auth/weak-password':'La contraseña debe tener al menos 6 caracteres.','auth/invalid-credential':'Correo o contraseña incorrectos.','permission-denied':'Firebase rechazó el acceso. Revisa las reglas publicadas.'}[e.code]||'Error: '+(e.message||String(e)));
+function panel(id){['cliente','motorizado','admin'].forEach(x=>$(x).hidden=x!==id);$(id).scrollIntoView({behavior:'smooth'});}
+document.querySelectorAll('[data-panel]').forEach(b=>b.addEventListener('click',()=>panel(b.dataset.panel)));
+document.querySelectorAll('[data-service]').forEach(b=>b.addEventListener('click',()=>{$('servicio').value=b.dataset.service;panel('cliente');}));
+$('registerBtn').onclick=async()=>{const email=$('email').value.trim(),password=$('password').value;$('authStatus').textContent='Creando cuenta...';try{const c=await createUserWithEmailAndPassword(auth,email,password);await setDoc(doc(db,'users',c.user.uid),{email:c.user.email,role:'client',createdAt:serverTimestamp()});$('authStatus').textContent='Cuenta de cliente creada.';}catch(e){$('authStatus').textContent=errorText(e);}};
+$('loginBtn').onclick=async()=>{try{await signInWithEmailAndPassword(auth,$('email').value.trim(),$('password').value);$('authStatus').textContent='Sesión iniciada.';}catch(e){$('authStatus').textContent=errorText(e);}};
+$('logoutBtn').onclick=async()=>{try{await signOut(auth);$('authStatus').textContent='Sesión cerrada.';}catch(e){$('authStatus').textContent=errorText(e);}};
+onAuthStateChanged(auth,user=>{$('signedOut').hidden=!!user;$('signedIn').hidden=!user;$('accountLabel').textContent=user?'Conectado: '+user.email:'';$('ordersList').textContent=user?'Pulsa Actualizar pedidos.':'Inicia sesión para ver tus pedidos.';});
+$('requestBtn').onclick=async()=>{const user=auth.currentUser,origin=$('origen').value.trim(),destination=$('destino').value.trim();if(!user){$('resultado').textContent='Primero inicia sesión.';return;}if(!origin||!destination){$('resultado').textContent='Completa ambas direcciones.';return;}$('requestBtn').disabled=true;$('resultado').textContent='Guardando pedido...';try{const ref=await addDoc(collection(db,'orders'),{clientId:user.uid,service:$('servicio').value,origin,destination,status:'pending',createdAt:serverTimestamp()});$('resultado').textContent='Pedido guardado correctamente. Código: '+ref.id+'\nPendiente de asignación manual.';$('origen').value='';$('destino').value='';}catch(e){$('resultado').textContent=errorText(e);}finally{$('requestBtn').disabled=false;}};
+$('refreshBtn').onclick=async()=>{const user=auth.currentUser;if(!user){$('ordersList').textContent='Inicia sesión para ver tus pedidos.';return;}$('ordersList').textContent='Cargando...';try{const snap=await getDocs(query(collection(db,'orders'),where('clientId','==',user.uid)));const list=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));$('ordersList').replaceChildren();if(!list.length){$('ordersList').textContent='Todavía no tienes pedidos.';return;}for(const o of list){const el=document.createElement('div');el.className='order';el.textContent=`${o.service||'Servicio'} • ${o.status||'Sin estado'}\n${o.origin||''} → ${o.destination||''}\nCódigo: ${o.id}`;$('ordersList').appendChild(el);}}catch(e){$('ordersList').textContent=errorText(e);}};
 </script>
 </body>
 </html>
