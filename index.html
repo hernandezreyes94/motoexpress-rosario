@@ -1,8 +1,56 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><meta name="viewport" content="width=device-width, initial-scale=1"><title>MotoExpress Rosario</title></head>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MotoExpress Rosario</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f2f5fa;color:#172b46}
+header{background:#102b4b;color:white;text-align:center;padding:32px 15px}
+header h1{font-size:27px;margin:8px 0}
+header p{color:#dbe7f5}
+main{max-width:520px;margin:auto;padding:20px}
+h2{font-size:21px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:white;padding:20px 12px;border-radius:15px;box-shadow:0 3px 12px #0001;text-align:center}
+.emoji{font-size:35px}
+button{background:#ffc439;border:0;border-radius:10px;padding:14px;font-size:15px;font-weight:bold;width:100%;cursor:pointer}
+.panel{background:white;border-radius:15px;padding:20px;margin-top:20px}
+input,select{width:100%;padding:13px;margin:7px 0 14px;border:1px solid #cbd5e1;border-radius:9px;font-size:16px}
+nav{display:flex;gap:8px;margin-top:20px}
+nav button{font-size:13px;padding:12px 5px}
+footer{text-align:center;padding:20px;color:#64748b;font-size:13px}
+</style>
+</head>
 <body>
-<h1>🏍️ MotoExpress Rosario</h1>
-<p>Bienvenidos a nuestra aplicación de delivery.</p>
+<header><div style="font-size:44px">🏍️</div><h1>MotoExpress Rosario</h1><p>Tu delivery de confianza en Villa del Rosario, Zulia</p></header>
+<main>
+<h2>¿Qué necesitas hoy?</h2>
+<div class="grid">
+<div class="card"><div class="emoji">📦</div><h3>Paquetes</h3><button onclick="elegir('Envío de paquete')">Solicitar</button></div>
+<div class="card"><div class="emoji">🛒</div><h3>Compras</h3><button onclick="elegir('Compras')">Solicitar</button></div>
+<div class="card"><div class="emoji">🍔</div><h3>Comida</h3><button onclick="elegir('Comida')">Solicitar</button></div>
+<div class="card"><div class="emoji">📍</div><h3>Mandados</h3><button onclick="elegir('Mandados')">Solicitar</button></div>
+</div>
+<section class="panel" id="cliente">
+<h2>Solicitar delivery</h2>
+<label>Servicio</label>
+<select id="servicio"><option>Envío de paquete</option><option>Compras</option><option>Comida</option><option>Mandados</option></select>
+<label>Dirección de recogida</label><input id="origen" placeholder="¿Dónde buscamos?">
+<label>Dirección de entrega</label><input id="destino" placeholder="¿Dónde entregamos?">
+<button onclick="solicitar()">Solicitar motorizado</button>
+<p id="resultado" role="status"></p>
+</section>
+<nav><button onclick="panel('cliente')">👤 Cliente</button><button onclick="panel('motorizado')">🏍️ Motorizado</button><button onclick="panel('admin')">🛡️ Admin</button></nav>
+<section class="panel" id="motorizado" hidden><h2>Panel de motorizados</h2><p>Próximamente: registro y pedidos disponibles.</p></section>
+<section class="panel" id="admin" hidden><h2>Administración</h2><p>Próximamente: gestión segura de pedidos y usuarios.</p></section>
+</main>
+<footer>Versión de demostración • Sin pedidos reales ni conexión a Firebase</footer>
+<script>
+function panel(id){['cliente','motorizado','admin'].forEach(x=>document.getElementById(x).hidden=x!==id)}
+function elegir(s){document.getElementById('servicio').value=s;panel('cliente');document.getElementById('cliente').scrollIntoView({behavior:'smooth'})}
+function solicitar(){const a=document.getElementById('origen').value.trim(),b=document.getElementById('destino').value.trim();document.getElementById('resultado').textContent=!a||!b?'Completa ambas direcciones.':'Solicitud de demostración preparada. Aún no se ha enviado ningún pedido.'}
+</script>
 </body>
 </html>
